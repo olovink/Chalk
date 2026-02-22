@@ -29,14 +29,17 @@ abstract class ContextInterpolator implements FormatterInterface{
      * Формирует итоговое сообщение с интерполяцией и неиспользованными ключами.
      */
     protected function buildFinalMessage(LogMessage $message): string{
-        $interpolated = $message->interpolate();
-        $remaining = $this->getUnusedContext($message);
+        $parts = [];
+        $parts[] = $message->interpolate();
 
-        if ($this->showRemainingContext && !empty($remaining)) {
-            $interpolated .= ' ' . json_encode($remaining, self::JSON_FLAGS);
+        if ($this->showRemainingContext) {
+            $remaining = $this->getUnusedContext($message);
+            if (!count($remaining) == 0) {
+                $parts[] = json_encode($remaining, self::JSON_FLAGS);
+            }
         }
 
-        return $interpolated;
+        return implode(" ", $parts);
     }
 
     /**
