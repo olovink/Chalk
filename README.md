@@ -21,10 +21,11 @@
 use chalk\ChalkLogger;
 use chalk\handler\ConsoleHandler;
 use chalk\formatter\PrettyConsoleFormatter;
+use chalk\SimpleChalkLogger;
 
 $logger = new ChalkLogger();
 $formatter = new PrettyConsoleFormatter(showRemainingContext: true);
-$handler = new ConsoleHandler($this->getLogger(), $formatter);
+$handler = new ConsoleHandler(new SimpleChalkLogger(), $formatter);
 $logger->addHandler($handler);
 
 $logger->info('Плагин загружен');
@@ -50,6 +51,7 @@ $logger->info('Пользователь вошёл', ['user' => 'Alice', 'ip' =>
 
 ```php
 use chalk\formatter\CallableFormatter;
+use chalk\SimpleChalkLogger;
 
 $customFormatter = new CallableFormatter(
     static function($level, $message, $extra) {
@@ -61,7 +63,7 @@ $customFormatter = new CallableFormatter(
         );
     }
 );
-$handler = new ConsoleHandler($this->getLogger(), $customFormatter);
+$handler = new ConsoleHandler(new SimpleChalkLogger(), $customFormatter);
 $logger->addHandler($handler);
 ```
 
@@ -72,6 +74,7 @@ use chalk\formatter\builder\FormatterBuilder;
 use chalk\style\ConsoleColor;
 use chalk\style\Style;
 use chalk\handler\LogLevel;
+use chalk\SimpleChalkLogger;
 
 $formatter = (new FormatterBuilder())
     ->addDatePart('[', ']', null, new Style(ConsoleColor::CYAN))
@@ -92,7 +95,7 @@ $formatter = (new FormatterBuilder())
     )
     ->build();
 
-$handler = new ConsoleHandler($this->getLogger(), $formatter);
+$handler = new ConsoleHandler(new SimpleChalkLogger(), $formatter);
 $logger->addHandler($handler);
 ```
 
@@ -100,6 +103,7 @@ $logger->addHandler($handler);
 ```php
 use chalk\style\RgbColor;
 use chalk\formatter\builder\FormatterBuilder;
+use chalk\SimpleChalkLogger;
 
 $formatter = (new FormatterBuilder())
     ->addGradientDatePart(
@@ -120,7 +124,7 @@ $formatter = (new FormatterBuilder())
     )
     ->build();
 
-$handler = new ConsoleHandler($this->getLogger(), $formatter);
+$handler = new ConsoleHandler(new SimpleChalkLogger(), $formatter);
 $logger->addHandler($handler);
 $logger->info('Привет, мир!');
 ```
@@ -168,6 +172,7 @@ try {
 ```php
 use chalk\formatter\ContextInterpolator;
 use chalk\LogLevel;
+use chalk\SimpleChalkLogger;
 
 class UppercaseFormatter extends ContextInterpolator
 {
@@ -178,7 +183,7 @@ class UppercaseFormatter extends ContextInterpolator
 }
 
 $formatter = new UppercaseFormatter(showRemainingContext: true);
-$handler = new ConsoleHandler($this->getLogger(), $formatter);
+$handler = new ConsoleHandler(new SimpleChalkLogger(), $formatter);
 $logger->addHandler($handler);
 $logger->info('Hello World'); // выведет "HELLO WORLD"
 ```
