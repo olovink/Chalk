@@ -28,11 +28,7 @@ class ConsoleHandler implements HandlerInterface{
     }
 
     public function handle(LogMessage $logMessage): void{
-        $extra = [
-            'logger_name' => 'Console',
-        ];
-
-        $formatted = $this->formatter->format($logMessage, $extra);
+        $formatted = $this->formatter->format($logMessage);
         $this->logger->log(null, $formatted);
     }
 }
