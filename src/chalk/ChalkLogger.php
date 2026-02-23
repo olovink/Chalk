@@ -22,7 +22,7 @@ class ChalkLogger {
         array                   $handlers = [],
         ?\DateTimeZone          $timezone = null,
     ) {
-        $this->sethandlers($handlers);
+        $this->setHandlers($handlers);
         $this->timezone = $timezone ?? new DateTimeZone(date_default_timezone_get());
     }
 
