@@ -13,7 +13,7 @@ readonly class MessagePartFormatter implements PartFormatterInterface{
         private ?Style $style = null
     ) {}
 
-    public function format(LogLevel $level, LogMessage $message, array $extra): string{
+    public function format(LogMessage $message): string{
         $interpolated = $message->interpolate();
         return $this->style ? $this->style->apply($interpolated) : $interpolated;
     }

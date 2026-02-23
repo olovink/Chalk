@@ -27,13 +27,12 @@ class ConsoleHandler implements HandlerInterface{
         return HandlerType::CONSOLE;
     }
 
-    public function handle(LogLevel $level, LogMessage $logMessage): void{
+    public function handle(LogMessage $logMessage): void{
         $extra = [
-            'date' => date('Y-m-d H:i:s'),
             'logger_name' => 'Console',
         ];
 
-        $formatted = $this->formatter->format($level, $logMessage, $extra);
-        $this->logger->log($level->value, $formatted);
+        $formatted = $this->formatter->format($logMessage, $extra);
+        $this->logger->log(null, $formatted);
     }
 }

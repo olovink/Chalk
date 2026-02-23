@@ -22,19 +22,11 @@ class GradientPartDecorator implements PartFormatterInterface{
         bool                                    $italic = false,
         bool                                    $useTrueColor = false
     ) {
-        $this->applier = new GradientApplier(
-            $start,
-            $end,
-            $perCharacter,
-            $bold,
-            $underline,
-            $italic,
-            $useTrueColor
-        );
+        $this->applier = new GradientApplier($start, $end, $perCharacter, $bold, $underline, $italic, $useTrueColor);
     }
 
-    public function format(LogLevel $level, LogMessage $message, array $extra): string{
-        $text = $this->inner->format($level, $message, $extra);
+    public function format(LogMessage $message): string{
+        $text = $this->inner->format($message);
         return $this->applier->apply($text);
     }
 }

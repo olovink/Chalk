@@ -11,7 +11,7 @@ use chalk\style\Style;
 readonly class LevelPartFormatter implements PartFormatterInterface{
 
     /**
-     * @param array<string, Style> $levelStyles Ассоциативный массив [уровень => Style]
+     * @param array<string, Style> $levelStyles
      */
     public function __construct(
         private string $openBracket = '[',
@@ -20,8 +20,10 @@ readonly class LevelPartFormatter implements PartFormatterInterface{
         private array $levelStyles = []
     ) {}
 
-    public function format(LogLevel $level, LogMessage $message, array $extra): string{
+    public function format(LogMessage $message): string{
+        $level = $message->getLevel();
         $levelName = strtoupper($level->name);
+
         $style = $this->levelStyles[$level->value] ?? null;
 
         $open = $this->bracketStyle ? $this->bracketStyle->apply($this->openBracket) : $this->openBracket;

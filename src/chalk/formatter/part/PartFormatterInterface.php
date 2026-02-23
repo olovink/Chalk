@@ -8,8 +8,5 @@ use chalk\LogLevel;
 use chalk\LogMessage;
 
 interface PartFormatterInterface{
-    /**
-     * Форматирует одну часть лога.
-     */
-    public function format(LogLevel $level, LogMessage $message, array $extra): string;
+    public function format(LogMessage $message): string;
 }

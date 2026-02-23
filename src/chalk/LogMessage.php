@@ -11,9 +11,24 @@ final readonly class LogMessage{
      * @param array  $context  Параметры контекста
      */
     public function __construct(
+        private JsonSerializableDateTimeImmutable $dateTime,
+        private LogLevel $level,
+        private string  $channel,
         private string  $message,
-        private array   $context
+        private array   $context = []
     ) {}
+
+    public function getDateTime(): JsonSerializableDateTimeImmutable{
+        return $this->dateTime;
+    }
+
+    public function getLevel(): LogLevel{
+        return $this->level;
+    }
+
+    public function getChannel(): string{
+        return $this->channel;
+    }
 
     public function getMessage(): string{
         return $this->message;
@@ -23,6 +38,14 @@ final readonly class LogMessage{
         return $this->context;
     }
 
+    public function toArray(): array{
+        return [
+            'datetime' => $this->dateTime,
+            'channel' => $this->channel,
+            'message' => $this->message,
+            'context' => $this->context
+        ];
+    }
 
     public function interpolate(): string{
         $message = $this->message;

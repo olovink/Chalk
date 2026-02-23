@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace chalk\formatter;
 
-use chalk\LogLevel;
 use chalk\LogMessage;
 
 abstract class ContextInterpolator implements FormatterInterface{
@@ -16,18 +15,12 @@ abstract class ContextInterpolator implements FormatterInterface{
         $this->showRemainingContext = $showRemainingContext;
     }
 
-    /**
-     * Финальный метод format, реализующий общую логику.
-     * Не переопределяйте этот метод в наследниках.
-     */
-    final public function format(LogLevel $level, LogMessage $message, array $extra = []): string{
+    final public function format(LogMessage $message): string{
         $finalMessage = $this->buildFinalMessage($message);
-        return $this->doFormat($level, $finalMessage, $extra);
+        return $this->doFormat($message, $finalMessage);
     }
 
-    /**
-     * Формирует итоговое сообщение с интерполяцией и неиспользованными ключами.
-     */
+
     protected function buildFinalMessage(LogMessage $message): string{
         $parts = [];
         $parts[] = $message->interpolate();
@@ -42,9 +35,6 @@ abstract class ContextInterpolator implements FormatterInterface{
         return implode(" ", $parts);
     }
 
-    /**
-     * Возвращает неиспользованные ключи контекста.
-     */
     protected function getUnusedContext(LogMessage $message): array{
         $unused = [];
         $originalMessage = $message->getMessage();
@@ -57,12 +47,9 @@ abstract class ContextInterpolator implements FormatterInterface{
     }
 
     /**
-     * Метод, который должны реализовать конкретные форматтеры.
-     *
-     * @param LogLevel $level       Уровень логирования
-     * @param string   $finalMessage Готовое сообщение (интерполированное + неиспользованные ключи)
-     * @param array    $extra        Дополнительные данные (дата, имя логгера и т.п.)
+     * @param LogMessage $message
+     * @param string     $finalMessage
      * @return string
      */
-    abstract protected function doFormat(LogLevel $level, string $finalMessage, array $extra): string;
+    abstract protected function doFormat(LogMessage $message, string $finalMessage): string;
 }

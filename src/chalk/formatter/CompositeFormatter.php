@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace chalk\formatter;
 
 use chalk\formatter\part\PartFormatterInterface;
-use chalk\LogLevel;
 use chalk\LogMessage;
 
 class CompositeFormatter implements FormatterInterface{
@@ -16,11 +15,7 @@ class CompositeFormatter implements FormatterInterface{
         $this->parts = $parts;
     }
 
-    public function format(LogLevel $level, LogMessage $message, array $extra = []): string{
-        $result = "";
-        foreach ($this->parts as $part) {
-            $result .= $part->format($level, $message, $extra);
-        }
-        return $result;
+    public function format(LogMessage $message): string{
+        return implode("", array_map(static fn($part) => $part->format($message), $this->parts));
     }
 }

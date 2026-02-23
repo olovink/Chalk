@@ -21,18 +21,10 @@ readonly class GradientMessagePartFormatter implements PartFormatterInterface{
         bool $italic = false,
         bool $useTrueColor = false
     ) {
-        $this->applier = new GradientApplier(
-            $start,
-            $end,
-            $perCharacter,
-            $bold,
-            $underline,
-            $italic,
-            $useTrueColor
-        );
+        $this->applier = new GradientApplier($start, $end, $perCharacter, $bold, $underline, $italic, $useTrueColor);
     }
 
-    public function format(LogLevel $level, LogMessage $message, array $extra): string{
+    public function format(LogMessage $message): string{
         $text = $message->interpolate();
         return $this->applier->apply($text);
     }

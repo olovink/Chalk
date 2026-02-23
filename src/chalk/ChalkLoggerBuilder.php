@@ -7,12 +7,13 @@ namespace chalk;
 use chalk\handler\HandlerInterface;
 
 class ChalkLoggerBuilder{
-    private LogLevel $minLevel = LogLevel::DEBUG;
     /** @var HandlerInterface[] */
     private array $handlers = [];
+    private string $name = "ChalkLogger";
+    private \DateTimeZone $timeZone;
 
-    public function setMinLevel(LogLevel $level): self{
-        $this->minLevel = $level;
+    public function setLoggerName(string $loggerName): self{
+        $this->name = $loggerName;
         return $this;
     }
 
@@ -21,8 +22,22 @@ class ChalkLoggerBuilder{
         return $this;
     }
 
+    public function addHandlers(array $handlers): self{
+        $this->handlers = array_merge($this->handlers, $handlers);
+        return $this;
+    }
+
+    public function setDateFormat(string $format): self{
+        $this->timeZone = new \DateTimeZone($format);
+        return $this;
+    }
+
     public function build(): ChalkLogger{
-        $logger = new ChalkLogger($this->minLevel);
+        $logger = new ChalkLogger(
+            $this->name,
+            $this->handlers,
+            $this->timeZone
+        );
 
         foreach ($this->handlers as $handler) {
             $logger->addHandler($handler);

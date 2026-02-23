@@ -16,12 +16,12 @@ readonly class DatePartFormatter implements PartFormatterInterface{
         private ?Style $dateStyle = null
     ) {}
 
-    public function format(LogLevel $level, LogMessage $message, array $extra): string{
-        $date = $extra['date'] ?? date('Y-m-d H:i:s');
+    public function format(LogMessage $message): string{
+        $date = $message->getDateTime();
 
         $open = $this->bracketStyle ? $this->bracketStyle->apply($this->openBracket) : $this->openBracket;
         $close = $this->bracketStyle ? $this->bracketStyle->apply($this->closeBracket) : $this->closeBracket;
-        $dateStr = $this->dateStyle ? $this->dateStyle->apply($date) : $date;
+        $dateStr = $this->dateStyle ? $this->dateStyle->apply($date->jsonSerialize()) : $date;
 
         return $open . $dateStr . $close;
     }

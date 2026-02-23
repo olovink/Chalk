@@ -1,6 +1,6 @@
 # Chalk Logger
 
-**Chalk** – это гибкая и расширяемая библиотека для логирования в PHP, разработанная с использованием современных паттернов проектирования. Она позволяет создавать красочные, структурированные логи с поддержкой ANSI-цветов, градиентов, а также легко настраивать вывод для разных окружений (консоль, файлы, и т.д.). Особое внимание уделено интеграции с **PocketMine-MP**, но библиотека может использоваться в любом PHP-проекте.
+**Chalk** – это гибкая и расширяемая библиотека для логирования в PHP. Она позволяет создавать красочные, структурированные логи с поддержкой ANSI-цветов, градиентов, а также легко настраивать вывод для разных окружений (консоль, файлы, и т.д.). Особое внимание уделено интеграции с **PocketMine-MP**.
 
 ## Особенности
 
@@ -23,7 +23,11 @@ use chalk\handler\ConsoleHandler;
 use chalk\formatter\PrettyConsoleFormatter;
 use chalk\SimpleChalkLogger;
 
-$logger = new ChalkLogger();
+$logger = new ChalkLogger("TestLogger", [], new \DateTimeZone(date_default_timezone_get()));
+
+// Disable miliseconds showing in logger
+$logger->useMicrosecondTimestamps(false);
+
 $formatter = new PrettyConsoleFormatter(showRemainingContext: true);
 $handler = new ConsoleHandler(new SimpleChalkLogger(), $formatter);
 $logger->addHandler($handler);
@@ -47,27 +51,7 @@ $logger->addHandler($fileHandler);
 $logger->info('Пользователь вошёл', ['user' => 'Alice', 'ip' => '192.168.1.1']);
 ```
 
-### 3. Кастомное форматирование через замыкание
-
-```php
-use chalk\formatter\CallableFormatter;
-use chalk\SimpleChalkLogger;
-
-$customFormatter = new CallableFormatter(
-    static function($level, $message, $extra) {
-        return sprintf(
-            '[%s] %s: %s',
-            $extra['date'],
-            strtoupper($level->name),
-            $message->interpolate()
-        );
-    }
-);
-$handler = new ConsoleHandler(new SimpleChalkLogger(), $customFormatter);
-$logger->addHandler($handler);
-```
-
-### 4. Использование форматтера из частей (Builder)
+### 3. Использование форматтера из частей (Builder)
 
 ```php
 use chalk\formatter\builder\FormatterBuilder;
@@ -99,7 +83,7 @@ $handler = new ConsoleHandler(new SimpleChalkLogger(), $formatter);
 $logger->addHandler($handler);
 ```
 
-### 5. Градиенты на частях лога
+### 4. Градиенты на частях лога
 ```php
 use chalk\style\RgbColor;
 use chalk\formatter\builder\FormatterBuilder;
@@ -129,7 +113,7 @@ $logger->addHandler($handler);
 $logger->info('Привет, мир!');
 ```
 
-### 6. Кастомизация цвета скобок и текста уровня отдельно
+### 5. Кастомизация цвета скобок и текста уровня отдельно
 ```php
 $formatter = (new FormatterBuilder())
     ->addDatePart('[', ']', null, new Style(ConsoleColor::CYAN))
@@ -146,7 +130,7 @@ $formatter = (new FormatterBuilder())
     ->build();
 ```
 
-### 7. Логирование с контекстом и интерполяцией
+### 6. Логирование с контекстом и интерполяцией
 ```php
 $logger->info('Пользователь {user} зашёл с IP {ip}', [
     'user' => 'Steve',
@@ -155,7 +139,7 @@ $logger->info('Пользователь {user} зашёл с IP {ip}', [
 ]);
 ```
 
-### 8. Логирование исключений
+### 7. Логирование исключений
 ```php
 try {
     // какой-то код
@@ -168,7 +152,7 @@ try {
 }
 ```
 
-### 10. Создание своего форматтера
+### 8. Создание своего форматтера
 ```php
 use chalk\formatter\ContextInterpolator;
 use chalk\LogLevel;

@@ -11,5 +11,5 @@ use chalk\LogMessage;
 interface HandlerInterface {
     public function getHandlerType(): HandlerType;
 
-    public function handle(LogLevel $level, LogMessage $logMessage): void;
+    public function handle(LogMessage $logMessage): void;
 }

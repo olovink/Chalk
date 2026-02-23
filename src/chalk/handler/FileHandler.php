@@ -28,13 +28,12 @@ class FileHandler implements HandlerInterface{
         return HandlerType::FILE;
     }
 
-    public function handle(LogLevel $level, LogMessage $logMessage): void{
+    public function handle(LogMessage $logMessage): void{
         $extra = [
-            'date' => date('Y-m-d H:i:s'),
             'logger_name' => 'File',
         ];
 
-        $formatted = $this->formatter->format($level, $logMessage, $extra) . PHP_EOL;
+        $formatted = $this->formatter->format($logMessage, $extra) . PHP_EOL;
         file_put_contents($this->logFile, $formatted, FILE_APPEND | LOCK_EX);
     }
 }

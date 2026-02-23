@@ -2,7 +2,7 @@
 
 namespace chalk\formatter;
 
-use chalk\LogLevel;
+use chalk\LogMessage;
 
 class StringFormatter extends ContextInterpolator{
     private string $template;
@@ -12,12 +12,12 @@ class StringFormatter extends ContextInterpolator{
         $this->template = $template;
     }
 
-    protected function doFormat(LogLevel $level, string $finalMessage, array $extra): string{
+    protected function doFormat(LogMessage $message, string $finalMessage): string{
         $replace = [
-            '{level}'   => strtoupper($level->name),
+            '{level}'   => strtoupper($message->getLevel()->name),
             '{message}' => $finalMessage,
-            '{date}'    => $extra['date'] ?? date('Y-m-d H:i:s'),
-            '{logger}'  => $extra['logger_name'] ?? '',
+            '{date}'    => $message->getDateTime()->jsonSerialize(),
+            '{logger}'  => $message->getContext(),
         ];
 
         return str_replace(array_keys($replace), array_values($replace), $this->template);

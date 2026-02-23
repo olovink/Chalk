@@ -14,7 +14,7 @@ readonly class LiteralPartFormatter implements PartFormatterInterface{
         private ?Style $style = null
     ) {}
 
-    public function format(LogLevel $level, LogMessage $message, array $extra): string{
+    public function format(LogMessage $message): string{
         return $this->style ? $this->style->apply($this->text) : $this->text;
     }
 }

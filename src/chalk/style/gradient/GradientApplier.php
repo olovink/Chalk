@@ -70,15 +70,19 @@ readonly class GradientApplier{
         return new RgbColor($r, $g, $b);
     }
 
-    private function createStyle(RgbColor $color): Style
-    {
-        if ($this->useTrueColor) {
-            return new Style($color, $this->bold, $this->underline, $this->italic);
-        } else {
-            $code256 = $this->rgbTo256($color->r, $color->g, $color->b);
-            $ansiCode = "\033[38;5;{$code256}m";
-            return new Style($ansiCode, $this->bold, $this->underline, $this->italic);
+    private function createStyle(RgbColor $color): Style{
+        $styleCache = [];
+        $key = $color->r . ',' . $color->g . ',' . $color->b . ',' . (int)$this->bold . ',' . (int)$this->underline . ',' . (int)$this->italic;
+        if (!isset($styleCache[$key])) {
+            if ($this->useTrueColor) {
+                $styleCache[$key] = new Style($color, $this->bold, $this->underline, $this->italic);
+            } else {
+                $code256 = $this->rgbTo256($color->r, $color->g, $color->b);
+                $ansiCode = "\033[38;5;{$code256}m";
+                $styleCache[$key] = new Style($ansiCode, $this->bold, $this->underline, $this->italic);
+            }
         }
+        return $styleCache[$key];
     }
 
     /**

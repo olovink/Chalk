@@ -15,15 +15,17 @@ readonly class RemainingContextPartFormatter implements PartFormatterInterface{
         private bool $showRemaining = false
     ) {}
 
-    public function format(LogLevel $level, LogMessage $message, array $extra): string{
+    public function format(LogMessage $message): string{
         if (!$this->showRemaining) {
-            return '';
+            return " ";
         }
+
         $remaining = $this->getUnusedContext($message);
-        if (empty($remaining)) {
-            return '';
+        if (count($remaining) == 0) {
+            return " ";
         }
-        return ' ' . $this->jsonStyle->formatJson($remaining);
+
+        return " " . $this->jsonStyle->formatJson($remaining);
     }
 
     private function getUnusedContext(LogMessage $message): array{

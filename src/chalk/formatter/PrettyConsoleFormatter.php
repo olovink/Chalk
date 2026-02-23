@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace chalk\formatter;
 
 use chalk\LogLevel;
+use chalk\LogMessage;
 use chalk\style\ConsoleColor;
 
 class PrettyConsoleFormatter extends ContextInterpolator {
@@ -25,8 +26,10 @@ class PrettyConsoleFormatter extends ContextInterpolator {
         ];
     }
 
-    protected function doFormat(LogLevel $level, string $finalMessage, array $extra): string{
-        $date = $extra['date'] ?? date('Y-m-d H:i:s');
+    protected function doFormat(LogMessage $message, string $finalMessage): string{
+        $date = $message->getDateTime()->jsonSerialize();
+        $level = $message->getLevel();
+
         $levelName = strtoupper($level->name);
         $colorCode = $this->colorMap[$level->value] ?? ConsoleColor::WHITE->value;
 
