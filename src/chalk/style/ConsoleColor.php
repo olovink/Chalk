@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace chalk\style;
 
 enum ConsoleColor: string implements ColorInterface{
+
+	public const string COLOR_FORMAT = "\033[%sm";
+
     // Сброс форматирования
     case RESET = "\033[0m";
 
@@ -65,37 +68,41 @@ enum ConsoleColor: string implements ColorInterface{
         return $this->value;
     }
 
-    /**
-     * Применить цвет к тексту (оборачивает текст в цвет и сбрасывает в конце).
-     */
+	public function numericCodes(): array{
+		$codes = substr($this->value, 2, -1);
+		return array_map('intval', explode(';', $codes));
+	}
+
+	public function isBackground(): bool{
+		return str_starts_with($this->name, 'BG_');
+	}
+
     public function apply(string $text): string{
         return $this->value . $text . self::RESET->value;
     }
 
-    /**
-     * Комбинирует несколько цветов/стилей (например, красный + жирный).
-     *
-     * @param self[] $colors Массив цветов/стилей
-     * @return string Комбинированная escape-последовательность
-     */
-    public static function combine(array $colors): string{
-        $codes = [];
-        foreach ($colors as $color) {
-            if (preg_match('/\033\[([0-9;]+)m/', $color->value, $matches)) {
-                $codes[] = $matches[1];
-            }
-        }
-        if (count($codes) == 0) {
-            return "";
-        }
-        return "\033[" . implode(';', $codes) . 'm';
-    }
+	public function isForeground(): bool{
+		return !$this->isBackground() && $this !== self::RESET;
+	}
 
-    public function toAnsiCode(bool $background = false): string{
-        if ($background) {
-            // TODO: BG_COLOR
-            return $this->value;
-        }
-        return $this->value;
-    }
+	public static function combine(array $colors): string{
+		$codes = [];
+		foreach ($colors as $color) {
+			array_push($codes, ...$color->numericCodes());
+		}
+
+		$codes = array_unique($codes);
+		if (count($codes) == 0) {
+			return '';
+		}
+		return sprintf(self::COLOR_FORMAT, implode(';', $codes));
+	}
+
+	public function toAnsiCode(bool $background = false): string{
+		if ($background) {
+			return $this->isBackground() ? $this->value : "";
+		}
+
+		return $this->isForeground() ? $this->value : "";
+	}
 }
