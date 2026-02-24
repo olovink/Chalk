@@ -15,7 +15,7 @@ enum LogLevel: string{
     case EMERGENCY = 'emergency';
 
     public function getPriority(): int{
-        return match($this) {
+        return match ($this) {
             self::DEBUG => 100,
             self::INFO => 200,
             self::NOTICE => 250,

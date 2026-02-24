@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace chalk\style;
 
-enum ConsoleColor: string{
+enum ConsoleColor: string implements ColorInterface{
     // Сброс форматирования
     case RESET = "\033[0m";
 
@@ -68,8 +68,7 @@ enum ConsoleColor: string{
     /**
      * Применить цвет к тексту (оборачивает текст в цвет и сбрасывает в конце).
      */
-    public function apply(string $text): string
-    {
+    public function apply(string $text): string{
         return $this->value . $text . self::RESET->value;
     }
 
@@ -90,5 +89,13 @@ enum ConsoleColor: string{
             return "";
         }
         return "\033[" . implode(';', $codes) . 'm';
+    }
+
+    public function toAnsiCode(bool $background = false): string{
+        if ($background) {
+            // TODO: BG_COLOR
+            return $this->value;
+        }
+        return $this->value;
     }
 }

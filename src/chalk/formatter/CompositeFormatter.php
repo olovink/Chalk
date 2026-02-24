@@ -7,7 +7,7 @@ namespace chalk\formatter;
 use chalk\formatter\part\PartFormatterInterface;
 use chalk\LogMessage;
 
-class CompositeFormatter implements FormatterInterface{
+class CompositeFormatter implements FormatterInterface {
     /** @var PartFormatterInterface[] */
     private array $parts;
 

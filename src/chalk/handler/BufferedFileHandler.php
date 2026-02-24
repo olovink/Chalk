@@ -8,7 +8,7 @@ use chalk\exception\ChalkLoggerException;
 use chalk\formatter\FormatterInterface;
 use chalk\handler\FileHandler;
 
-class BufferedFileHandler extends FileHandler{
+class BufferedFileHandler extends FileHandler {
 
     /** @var array<string> */
     private array $buffer = [];
@@ -18,9 +18,9 @@ class BufferedFileHandler extends FileHandler{
      * @throws ChalkLoggerException
      */
     public function __construct(
-        string $logFile,
+        string               $logFile,
         private readonly int $bufferSize = 100,
-        ?FormatterInterface $formatter = null,
+        ?FormatterInterface  $formatter = null,
     ) {
         parent::__construct($logFile, $formatter);
 
@@ -50,5 +50,4 @@ class BufferedFileHandler extends FileHandler{
     public function __destruct() {
         $this->flush();
     }
-
 }

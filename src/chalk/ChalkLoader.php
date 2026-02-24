@@ -7,5 +7,5 @@ namespace chalk;
 use pocketmine\plugin\PluginBase;
 
 class ChalkLoader extends PluginBase {
-    public function onEnable(): void{}
+	public function onEnable(): void{}
 }

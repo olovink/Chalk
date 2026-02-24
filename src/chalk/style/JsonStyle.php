@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace chalk\style;
 readonly class JsonStyle{
     public function __construct(
-        public string|ConsoleColor|null $braceColor = null,
-        public string|ConsoleColor|null $bracketColor = null,
-        public string|ConsoleColor|null $keyColor = null,
-        public string|ConsoleColor|null $stringColor = null,
-        public string|ConsoleColor|null $numberColor = null,
-        public string|ConsoleColor|null $boolColor = null,
-        public string|ConsoleColor|null $nullColor = null,
-        public string|ConsoleColor|null $quoteColor = null,
-        public string|ConsoleColor|null $colonColor = null,
-        public string|ConsoleColor|null $commaColor = null,
+        public ?ColorInterface $braceColor = null,
+        public ?ColorInterface $bracketColor = null,
+        public ?ColorInterface $keyColor = null,
+        public ?ColorInterface $stringColor = null,
+        public ?ColorInterface $numberColor = null,
+        public ?ColorInterface $boolColor = null,
+        public ?ColorInterface $nullColor = null,
+        public ?ColorInterface $quoteColor = null,
+        public ?ColorInterface $colonColor = null,
+        public ?ColorInterface $commaColor = null,
     ) {}
 
     /**

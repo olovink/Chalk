@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace chalk;
 
-final readonly class LogMessage{
+final readonly class LogMessage {
 
     /**
-     * @param string $message  Текст сообщения
-     * @param array  $context  Параметры контекста
+     * @param string $message Текст сообщения
+     * @param array $context Параметры контекста
      */
     public function __construct(
         private JsonSerializableDateTimeImmutable $dateTime,
-        private LogLevel $level,
-        private string  $channel,
-        private string  $message,
-        private array   $context = []
+        private LogLevel                          $level,
+        private string                            $channel,
+        private string                            $message,
+        private array                             $context = []
     ) {}
 
     public function getDateTime(): JsonSerializableDateTimeImmutable{

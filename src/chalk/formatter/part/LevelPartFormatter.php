@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace chalk\formatter\part;
 
-use chalk\LogLevel;
 use chalk\LogMessage;
 use chalk\style\Style;
 
-readonly class LevelPartFormatter implements PartFormatterInterface{
+readonly class LevelPartFormatter implements PartFormatterInterface {
 
     /**
      * @param array<string, Style> $levelStyles
@@ -17,7 +16,7 @@ readonly class LevelPartFormatter implements PartFormatterInterface{
         private string $openBracket = '[',
         private string $closeBracket = ']',
         private ?Style $bracketStyle = null,
-        private array $levelStyles = []
+        private array  $levelStyles = []
     ) {}
 
     public function format(LogMessage $message): string{

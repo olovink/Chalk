@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace chalk\formatter\part;
 
-use chalk\LogLevel;
 use chalk\LogMessage;
 use chalk\style\JsonStyle;
 
-readonly class RemainingContextPartFormatter implements PartFormatterInterface{
+readonly class RemainingContextPartFormatter implements PartFormatterInterface {
 
     public function __construct(
         private JsonStyle $jsonStyle,
-        private bool $showRemaining = false
+        private bool      $showRemaining = false
     ) {}
 
     public function format(LogMessage $message): string{

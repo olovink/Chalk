@@ -9,14 +9,14 @@ use chalk\formatter\FormatterInterface;
 use chalk\formatter\StringFormatter;
 use chalk\LogMessage;
 
-abstract class BaseFileHandler implements HandlerInterface{
+abstract class BaseFileHandler implements HandlerInterface {
     public const int FILE_PUT_FLAGS = FILE_APPEND | LOCK_EX;
 
     /**
      * @throws ChalkLoggerException
      */
     public function __construct(
-        protected readonly string $logFile,
+        protected readonly string   $logFile,
         private ?FormatterInterface $formatter = null
     ) {
         $this->formatter = $formatter ?? new StringFormatter();

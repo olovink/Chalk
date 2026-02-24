@@ -13,11 +13,11 @@ use chalk\formatter\part\LiteralPartFormatter;
 use chalk\formatter\part\MessagePartFormatter;
 use chalk\formatter\part\PartFormatterInterface;
 use chalk\formatter\part\RemainingContextPartFormatter;
-use chalk\style\gradient\RgbColor;
 use chalk\style\JsonStyle;
+use chalk\style\RgbColor;
 use chalk\style\Style;
 
-class FormatterBuilder{
+class FormatterBuilder {
     /** @var PartFormatterInterface[] */
     private array $parts = [];
 
@@ -26,7 +26,7 @@ class FormatterBuilder{
         string $closeBracket = ']',
         ?Style $bracketStyle = null,
         ?Style $dateStyle = null
-    ): self {
+    ): self{
         $this->parts[] = new DatePartFormatter($openBracket, $closeBracket, $bracketStyle, $dateStyle);
         return $this;
     }
@@ -35,48 +35,42 @@ class FormatterBuilder{
         string $openBracket = '[',
         string $closeBracket = ']',
         ?Style $bracketStyle = null,
-        array $levelStyles = []
-    ): self {
+        array  $levelStyles = []
+    ): self{
         $this->parts[] = new LevelPartFormatter($openBracket, $closeBracket, $bracketStyle, $levelStyles);
         return $this;
     }
 
-    /**
-     * Добавить дату с градиентом.
-     */
     public function addGradientDatePart(
         RgbColor $start,
         RgbColor $end,
-        string $openBracket = '[',
-        string $closeBracket = ']',
-        ?Style $bracketStyle = null,
-        bool $perCharacter = true,
-        bool $bold = false,
-        bool $underline = false,
-        bool $italic = false,
-        bool $useTrueColor = false
-    ): self {
+        string   $openBracket = '[',
+        string   $closeBracket = ']',
+        ?Style   $bracketStyle = null,
+        bool     $perCharacter = true,
+        bool     $bold = false,
+        bool     $underline = false,
+        bool     $italic = false,
+        bool     $useTrueColor = false
+    ): self{
         $inner = new DatePartFormatter($openBracket, $closeBracket, $bracketStyle, null);
         $decorated = new GradientPartDecorator($inner, $start, $end, $perCharacter, $bold, $underline, $italic, $useTrueColor);
         $this->parts[] = $decorated;
         return $this;
     }
 
-    /**
-     * Добавить уровень с градиентом.
-     */
     public function addGradientLevelPart(
         RgbColor $start,
         RgbColor $end,
-        string $openBracket = '[',
-        string $closeBracket = ']',
-        ?Style $bracketStyle = null,
-        bool $perCharacter = true,
-        bool $bold = false,
-        bool $underline = false,
-        bool $italic = false,
-        bool $useTrueColor = false
-    ): self {
+        string   $openBracket = '[',
+        string   $closeBracket = ']',
+        ?Style   $bracketStyle = null,
+        bool     $perCharacter = true,
+        bool     $bold = false,
+        bool     $underline = false,
+        bool     $italic = false,
+        bool     $useTrueColor = false
+    ): self{
         $this->parts[] = new LiteralPartFormatter($openBracket, $bracketStyle);
         $levelPart = new LevelPartFormatter('', '', null, []);
         $decorated = new GradientPartDecorator($levelPart, $start, $end, $perCharacter, $bold, $underline, $italic, $useTrueColor);
@@ -85,19 +79,16 @@ class FormatterBuilder{
         return $this;
     }
 
-    /**
-     * Добавить литерал с градиентом.
-     */
     public function addGradientLiteral(
-        string $text,
+        string   $text,
         RgbColor $start,
         RgbColor $end,
-        bool $perCharacter = true,
-        bool $bold = false,
-        bool $underline = false,
-        bool $italic = false,
-        bool $useTrueColor = false
-    ): self {
+        bool     $perCharacter = true,
+        bool     $bold = false,
+        bool     $underline = false,
+        bool     $italic = false,
+        bool     $useTrueColor = false
+    ): self{
         $inner = new LiteralPartFormatter($text);
         $decorated = new GradientPartDecorator($inner, $start, $end, $perCharacter, $bold, $underline, $italic, $useTrueColor);
         $this->parts[] = $decorated;

@@ -21,11 +21,11 @@ use DateTimeZone;
  * @author Menno Holtkamp
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
-class JsonSerializableDateTimeImmutable extends \DateTimeImmutable implements \JsonSerializable {
+class JsonSerializableDateTimeImmutable extends \DateTimeImmutable implements \JsonSerializable{
     public function __construct(
         private readonly bool $useMicroseconds,
-        ?DateTimeZone $timezone = null
-    ){
+        ?DateTimeZone         $timezone = null
+    ) {
         // call modify() or setTimestamp() on this instance to change the date after creating it
         parent::__construct('now', $timezone);
     }

@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace chalk\formatter\part;
 
-use chalk\LogLevel;
 use chalk\LogMessage;
 use chalk\style\gradient\GradientApplier;
-use chalk\style\gradient\RgbColor;
+use chalk\style\RgbColor;
 
-class GradientPartDecorator implements PartFormatterInterface{
+class GradientPartDecorator implements PartFormatterInterface {
     private GradientApplier $applier;
 
     public function __construct(
@@ -25,7 +24,7 @@ class GradientPartDecorator implements PartFormatterInterface{
         $this->applier = new GradientApplier($start, $end, $perCharacter, $bold, $underline, $italic, $useTrueColor);
     }
 
-    public function format(LogMessage $message): string{
+    public function format(LogMessage $message): string {
         $text = $this->inner->format($message);
         return $this->applier->apply($text);
     }

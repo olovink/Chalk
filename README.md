@@ -1,6 +1,8 @@
 # Chalk Logger
 
-**Chalk** – это гибкая и расширяемая библиотека для логирования в PHP. Она позволяет создавать красочные, структурированные логи с поддержкой ANSI-цветов, градиентов, а также легко настраивать вывод для разных окружений (консоль, файлы, и т.д.). Особое внимание уделено интеграции с **PocketMine-MP**.
+**Chalk** – это гибкая и расширяемая библиотека для логирования в PHP. Она позволяет создавать красочные,
+структурированные логи с поддержкой ANSI-цветов, градиентов, а также легко настраивать вывод для разных окружений (
+консоль, файлы, и т.д.). Особое внимание уделено интеграции с **PocketMine-MP**.
 
 ## Особенности
 
@@ -38,6 +40,7 @@ $logger->error('Ошибка подключения к БД', ['db' => 'mysql'])
 ```
 
 ### 2. Логирование в файл в формате JSON
+
 ```php
 use chalk\handler\FileHandler;
 use chalk\formatter\JsonFormatter;
@@ -84,6 +87,7 @@ $logger->addHandler($handler);
 ```
 
 ### 4. Градиенты на частях лога
+
 ```php
 use chalk\style\RgbColor;
 use chalk\formatter\builder\FormatterBuilder;
@@ -114,6 +118,7 @@ $logger->info('Привет, мир!');
 ```
 
 ### 5. Кастомизация цвета скобок и текста уровня отдельно
+
 ```php
 $formatter = (new FormatterBuilder())
     ->addDatePart('[', ']', null, new Style(ConsoleColor::CYAN))
@@ -131,6 +136,7 @@ $formatter = (new FormatterBuilder())
 ```
 
 ### 6. Логирование с контекстом и интерполяцией
+
 ```php
 $logger->info('Пользователь {user} зашёл с IP {ip}', [
     'user' => 'Steve',
@@ -140,6 +146,7 @@ $logger->info('Пользователь {user} зашёл с IP {ip}', [
 ```
 
 ### 7. Логирование исключений
+
 ```php
 try {
     // какой-то код
@@ -153,6 +160,7 @@ try {
 ```
 
 ### 8. Создание своего форматтера
+
 ```php
 use chalk\formatter\ContextInterpolator;
 use chalk\LogLevel;

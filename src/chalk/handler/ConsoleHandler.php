@@ -7,16 +7,15 @@ namespace chalk\handler;
 use chalk\formatter\FormatterInterface;
 use chalk\formatter\StringFormatter;
 use chalk\HandlerType;
-use chalk\LogLevel;
 use chalk\LogMessage;
 use chalk\SimpleChalkLogger;
 
-class ConsoleHandler implements HandlerInterface{
+class ConsoleHandler implements HandlerInterface {
     private FormatterInterface $formatter;
     private \Logger $logger;
 
     public function __construct(
-        ?\Logger $logger = null,
+        ?\Logger            $logger = null,
         ?FormatterInterface $formatter = null
     ) {
         $this->logger = $logger ?? new SimpleChalkLogger();

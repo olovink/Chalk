@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace chalk\formatter\part;
 
-use chalk\LogLevel;
 use chalk\LogMessage;
 use chalk\style\Style;
 
-readonly class LiteralPartFormatter implements PartFormatterInterface{
+readonly class LiteralPartFormatter implements PartFormatterInterface {
     public function __construct(
         private string $text,
         private ?Style $style = null

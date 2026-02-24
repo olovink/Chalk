@@ -6,7 +6,7 @@ namespace chalk\formatter;
 
 use chalk\LogMessage;
 
-abstract class ContextInterpolator implements FormatterInterface{
+abstract class ContextInterpolator implements FormatterInterface {
     protected bool $showRemainingContext;
 
     private const int JSON_FLAGS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
@@ -48,7 +48,7 @@ abstract class ContextInterpolator implements FormatterInterface{
 
     /**
      * @param LogMessage $message
-     * @param string     $finalMessage
+     * @param string $finalMessage
      * @return string
      */
     abstract protected function doFormat(LogMessage $message, string $finalMessage): string;

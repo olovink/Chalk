@@ -30,7 +30,7 @@ class ChalkLogger {
         return $this->name;
     }
 
-    public function addHandler(HandlerInterface $handler): void {
+    public function addHandler(HandlerInterface $handler): void{
         $this->handlers[] = $handler;
     }
 
@@ -41,11 +41,11 @@ class ChalkLogger {
     }
 
     /** @return array<HandlerInterface> */
-    public function getHandlers(): array {
+    public function getHandlers(): array{
         return $this->handlers;
     }
 
-    public function log(LogLevel $level, string $message, array $context = [], ?JsonSerializableDateTimeImmutable $datetime = null): void {
+    public function log(LogLevel $level, string $message, array $context = [], ?JsonSerializableDateTimeImmutable $datetime = null): void{
         $logMessage = new LogMessage(
             dateTime: $datetime ?? new JsonSerializableDateTimeImmutable($this->microsecondTimestamps, $this->timezone),
             level: $level,
@@ -73,19 +73,19 @@ class ChalkLogger {
         $this->microsecondTimestamps = $value;
     }
 
-    public function debug(string $message, array $context = []): void {
+    public function debug(string $message, array $context = []): void{
         $this->log(LogLevel::DEBUG, $message, $context);
     }
 
-    public function info(string $message, array $context = []): void {
+    public function info(string $message, array $context = []): void{
         $this->log(LogLevel::INFO, $message, $context);
     }
 
-    public function warning(string $message, array $context = []): void {
+    public function warning(string $message, array $context = []): void{
         $this->log(LogLevel::WARNING, $message, $context);
     }
 
-    public function error(string $message, array $context = []): void {
+    public function error(string $message, array $context = []): void{
         $this->log(LogLevel::ERROR, $message, $context);
     }
 
