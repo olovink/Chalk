@@ -163,13 +163,11 @@ try {
 
 ```php
 use chalk\formatter\ContextInterpolator;
-use chalk\LogLevel;
+use chalk\LogMessage;
 use chalk\SimpleChalkLogger;
 
-class UppercaseFormatter extends ContextInterpolator
-{
-    protected function doFormat(LogLevel $level, string $finalMessage, array $extra): string
-    {
+class UppercaseFormatter extends ContextInterpolator{
+    protected function doFormat(LogMessage $message, string $finalMessage): string{
         return strtoupper($finalMessage);
     }
 }
