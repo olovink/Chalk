@@ -15,6 +15,7 @@ readonly class JsonStyle{
         public ?ColorInterface $quoteColor = null,
         public ?ColorInterface $colonColor = null,
         public ?ColorInterface $commaColor = null,
+		public ?ColorInterface $objectColor = null,
     ) {}
 
     /**
@@ -39,6 +40,11 @@ readonly class JsonStyle{
                 . $this->apply($this->stringColor, $value)
                 . $this->apply($this->quoteColor, '"');
         }
+		if (is_object($value)) {
+			return $this->apply($this->quoteColor, '[object:')
+				. $this->apply($this->objectColor, $value)
+				. $this->apply($this->quoteColor, ']');
+		}
         if (is_array($value)) {
             $isList = array_is_list($value);
             $openBracket = $isList ? '[' : '{';
@@ -67,7 +73,7 @@ readonly class JsonStyle{
         return json_encode($value);
     }
 
-    private function apply(string|ConsoleColor|null $color, string $text): string{
+    private function apply(?ColorInterface $color, string $text): string{
         if ($color === null) {
             return $text;
         }
