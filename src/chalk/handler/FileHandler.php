@@ -11,12 +11,19 @@ use chalk\LogLevel;
 use chalk\LogMessage;
 
 class FileHandler implements HandlerInterface{
-    private string $logFile;
-    private FormatterInterface $formatter;
 
-    public function __construct(string $logFile, ?FormatterInterface $formatter = null){
-        $this->logFile = $logFile;
+    private const int FILE_PUT_FLAGS = FILE_APPEND | LOCK_EX;
+
+    public function __construct(
+        private readonly string $logFile,
+        private ?FormatterInterface $formatter = null
+    ) {
         $this->formatter = $formatter ?? new StringFormatter();
+
+        if (!file_exists($this->logFile)) {
+            if (!touch($this->logFile)) throw new \InvalidArgumentException(sprintf("Log file '%s' cannot be created.", $this->logFile));
+        }
+        if (!is_writable($this->logFile)) throw new \InvalidArgumentException(sprintf("Log file '%s' is not writable.", $this->logFile));
 
         $dir = dirname($logFile);
         if (!is_dir($dir)) {
@@ -29,11 +36,7 @@ class FileHandler implements HandlerInterface{
     }
 
     public function handle(LogMessage $logMessage): void{
-        $extra = [
-            'logger_name' => 'File',
-        ];
-
-        $formatted = $this->formatter->format($logMessage, $extra) . PHP_EOL;
-        file_put_contents($this->logFile, $formatted, FILE_APPEND | LOCK_EX);
+        $formatted = $this->formatter->format($logMessage) . PHP_EOL;
+        file_put_contents($this->logFile, $formatted, self::FILE_PUT_FLAGS);
     }
 }
