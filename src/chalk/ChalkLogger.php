@@ -70,9 +70,8 @@ class ChalkLogger {
         }
     }
 
-    public function useMicrosecondTimestamps(bool $value): self{
+    public function useMicrosecondTimestamps(bool $value): void{
         $this->microsecondTimestamps = $value;
-        return $this;
     }
 
     public function debug(string $message, array $context = []): void {

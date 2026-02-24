@@ -11,6 +11,7 @@ class ChalkLoggerBuilder{
     private array $handlers = [];
     private string $name = "ChalkLogger";
     private \DateTimeZone $timeZone;
+    private bool $microsecondTimestamps = true;
 
     public function setLoggerName(string $loggerName): self{
         $this->name = $loggerName;
@@ -27,6 +28,11 @@ class ChalkLoggerBuilder{
         return $this;
     }
 
+    public function useMicrosecondTimestamps(bool $value): self{
+        $this->microsecondTimestamps = $value;
+        return $this;
+    }
+
     public function setDateFormat(string $format): self{
         $this->timeZone = new \DateTimeZone($format);
         return $this;
@@ -39,6 +45,7 @@ class ChalkLoggerBuilder{
             $this->timeZone
         );
 
+        $logger->useMicrosecondTimestamps($this->microsecondTimestamps);
         foreach ($this->handlers as $handler) {
             $logger->addHandler($handler);
         }
