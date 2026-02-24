@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace handler;
 
+use chalk\exception\ChalkLoggerException;
 use chalk\formatter\FormatterInterface;
 use chalk\handler\FileHandler;
 
@@ -14,6 +15,7 @@ class BufferedFileHandler extends FileHandler{
 
     /**
      * @param int $bufferSize Number of messages to accumulate before recording
+     * @throws ChalkLoggerException
      */
     public function __construct(
         string $logFile,
@@ -23,7 +25,7 @@ class BufferedFileHandler extends FileHandler{
         parent::__construct($logFile, $formatter);
 
         if (1 > $this->bufferSize) {
-            throw new \InvalidArgumentException("Buffer size must be a positive number");
+            throw new ChalkLoggerException("Buffer size must be a positive number");
         }
     }
 
@@ -36,7 +38,7 @@ class BufferedFileHandler extends FileHandler{
     }
 
     public function flush(): void{
-        if (count($this->buffer) === 0) {   
+        if (count($this->buffer) === 0) {
             return;
         }
         $content = implode(" ", $this->buffer);

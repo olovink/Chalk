@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace chalk;
 
-use chalk\exception\ChalkLoggerException;
 use chalk\handler\HandlerInterface;
 use DateTimeZone;
 use pocketmine\Server;
